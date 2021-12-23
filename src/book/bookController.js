@@ -12,6 +12,14 @@ class BookController {
             res.status(500).json({message: 'Error!', err})
         }
     }
+
+    static addBook = async (req, res) => {
+        try {
+            console.log('add something here');
+        } catch (err) {
+            res.status(500).json({message: 'Error!', err})
+        }
+    } 
 }
 
 module.exports = BookController
