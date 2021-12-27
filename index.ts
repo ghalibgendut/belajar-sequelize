@@ -15,8 +15,8 @@ app.use(bookRoutes)
 
 
 app.get("/",
-    async (req: Request, res: Response): Promise<Response> => {
-        return res.status(200).send({
+    async (req: Request, res: Response) => {
+        return await res.status(200).send({
             message: `API Connected at port ${port} `,
         });
     }

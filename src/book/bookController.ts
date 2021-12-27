@@ -1,8 +1,9 @@
 const book = require('./bookModel')
+import { Request, Response } from "express";
 
 class BookController {
 
-    static getAllData = async (req, res) => {
+    static getAllData = async (req: Request, res: Response) => {
         try {
             const bookData = await book.findAll()
 
@@ -13,7 +14,7 @@ class BookController {
         }
     }
 
-    static addBook = async (req, res) => {
+    static addBook = async (req: Request, res: Response) => {
         try {
             const data = {
                 isbn: req.body.isbn,
