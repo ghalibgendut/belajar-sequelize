@@ -1,5 +1,5 @@
 const db = require('../../config/db')
-const Sequelize = require('sequelize')
+import * as Sequelize from 'sequelize'
 
 const bookModel = db.define('book', {
     'id': {
@@ -15,10 +15,10 @@ const bookModel = db.define('book', {
     'image': {
         type: Sequelize.STRING,
         //Set custom getter for book image using URL
-        get(){
-            const image = this.getDataValue('image');
-            return "/img/"+image;
-        }
+        // get(){
+        //     const image = this.getDataValue('image');
+        //     return "/img/"+image;
+        // }
     },
     'createdAt': {
         type: Sequelize.DATE,

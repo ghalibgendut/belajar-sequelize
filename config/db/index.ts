@@ -1,10 +1,10 @@
 const Sequelize = require('sequelize')
 
-const db = 'belajar-sequelize'
+const database = 'belajar-sequelize'
 const username = 'root'
 const password = ''
 
-const sequelize = new Sequelize(db, username, password, {
+const sequelize = new Sequelize(database, username, password, {
     dialect: 'mysql',
     port: 3306,
     pool: {

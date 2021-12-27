@@ -9,9 +9,10 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 const bookRoutes = require('./src/book/bookRoutes')
+const userRoutes = require('./src/user/userRoutes')
 
 app.use(bookRoutes)
-
+app.use(userRoutes)
 
 
 app.get("/",
