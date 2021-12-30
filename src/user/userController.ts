@@ -30,7 +30,7 @@ class UserController {
         }
     }
 
-    static login =async (req:Request, res: Response) => {
+    static login = async (req:Request, res: Response) => {
         
         try {
 
