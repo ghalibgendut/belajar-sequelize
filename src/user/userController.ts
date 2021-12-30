@@ -35,16 +35,21 @@ class UserController {
         try {
 
             const email = req.body.email
+            const password = req.body.password
 
             const userData = await user.findOne({where:{email}})
-            const password = userData.password
-
-            console.log(password);
+            const userPassword = userData.password
 
             // Compare
+            const comparedData = await bcrypt.compareSync(password, userPassword)
             
-            
-            
+            if (!comparedData) {
+                res.status(400).json({message: `wrong email or password!`})
+            }
+            else{
+                // create jwt here
+                res.status(200).json({message: `user loged in!`})
+            }
 
             
         } catch (error) {
