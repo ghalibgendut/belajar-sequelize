@@ -1,4 +1,4 @@
-const { Op, where } = require("sequelize");
+const { Op } = require("sequelize");
 const book = require('./bookModel')
 
 class BookController {
@@ -56,7 +56,7 @@ class BookController {
 
     static updateBookData = async (req, res) => {
         try {
-            const id = req.params.id ? req.params.id : res.status(400).json({message: `ID cannot be null!`})
+            const id = req.params.id
             let data = {
                 isbn: req.body.isbn ? req.body.isbn : "",
                 name: req.body.name ? req.body.name : "",
@@ -87,11 +87,27 @@ class BookController {
                         description: data.description ? data.description : bookObj.description,
                         updatedAt: Date.now()
                     },{where: {id}})
-    
-                    await updateData.save()
+                    res.status(200).json({message:`Update data success!`, updateData})
                 }
             }
-            res.status(200).json({message:`Update data success!`})
+        } catch (err) {
+            res.status(500).json({message: 'Error!', err})
+        }
+    }
+
+    static deleteBook = async (req, res) => {
+        try {
+            const id = req.params.id
+            
+            // check if book data exist 
+            const bookDb = await book.findAll({where: {id}})
+            if (bookDb.length == 0) {
+                res.status(404).json({message: `No data found!`})
+            }
+            else {
+                const bookData = await book.destroy({where:{id}})
+                res.status(201).json({message: `Data deleted!`, bookData})
+            }
         } catch (err) {
             res.status(500).json({message: 'Error!', err})
         }
