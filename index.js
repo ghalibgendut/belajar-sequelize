@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const port = 3000
 
-const bookRoutes = require('./src/book/bookRoutes')
+const bookRoutes = require('./src/modules/book/bookRoutes')
 
 app.use(express.json())
 app.use(bookRoutes)
