@@ -72,7 +72,8 @@ class BookController {
             else{
                 // call the data from db
                 const bookDb = await book.findAll({where: {id}})
-                if (!bookDb) {
+
+                if (bookDb.length == 0) {
                     res.status(404).json({message: `No data found!`})
                 }
                 else {
@@ -88,10 +89,9 @@ class BookController {
                     },{where: {id}})
     
                     await updateData.save()
-
-                    res.status(200).json({message:`Update data success!`})
                 }
             }
+            res.status(200).json({message:`Update data success!`})
         } catch (err) {
             res.status(500).json({message: 'Error!', err})
         }
