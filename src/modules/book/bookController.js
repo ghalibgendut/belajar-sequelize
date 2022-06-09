@@ -14,6 +14,20 @@ class BookController {
                 image: req.body.image
             }
 
+            // check if isbn book already existed
+            let bookData
+
+            bookData = await book.findOne({
+                attributes: ['isbn'],
+                where: {isbn: data.isbn}
+            })
+            
+            let bookIsbn = bookData?.dataValues?.isbn ?? ''
+
+            if (bookIsbn == data.isbn) {
+                res.status(400).json({message: 'Error! Book ISBN already existed'})
+            }
+            
             const insertData = await book.create(data)
 
             res.status(200).json({message: 'Data Inserted!', insertData})
@@ -25,11 +39,14 @@ class BookController {
 
     static searchBook = async (req, res) => {
         try {
-            let isbn = req.query.isbn
-            let name = req.query.name
+            let keyword = {
+                isbn: req.query.keyword,
+                name: req.query.keyword
+            }
+            
             let bookData
             
-            if (!isbn && !name) {
+            if (!keyword.isbn && !keyword.name) {
                 bookData = await book.findAll()
 
                 res.status(200).json({message: 'Data Retrived', bookData})
@@ -37,7 +54,7 @@ class BookController {
             else{
                 bookData = await book.findAll({
                     where: {
-                        [Op.or]: [{isbn: isbn}, {name: {[Op.like]: `%${name}%`}}]
+                        [Op.or]: [{isbn: keyword.isbn}, {name: {[Op.like]: `%${keyword.name}%`}}]
                     }
                 })
     
