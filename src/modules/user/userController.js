@@ -24,6 +24,7 @@ class UserController{
 
     static login = async (req, res) => {
         
+
     }
 
 }
