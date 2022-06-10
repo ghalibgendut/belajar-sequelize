@@ -14,4 +14,4 @@ const authModel = db.define('auth', {
     freezeTableName: true,
 })
 
-module.exports = bookModel
+module.exports = authModel
