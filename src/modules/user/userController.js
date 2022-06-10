@@ -76,15 +76,35 @@ class UserController{
 
     static logout = async (req, res) => {
 
-        const userId = req.params.userId
+        try {
 
-        const authData = await authModel.destroy({where:{userId}})
-        res.status(201).json({message: `User logedout!`, authData})
+            const userId = req.params.userId
 
+            const authData = await authModel.destroy({where:{userId}})
+            res.status(201).json({message: `User logedout!`, authData})
+            
+        } catch (err) {
+            res.status(500).json({message: 'Error!', err})
+        }
     }
 
     static userProfile = async (req, res) => {
-        console.log('Jalan');
+        try {
+            const userId = req.params.userId
+        
+            let userData = await user.findAll({
+                attributes: ['username', 'FullName', 'address'],
+                where: {id: userId}
+            })
+
+            res.status(200).json({message: "Data Retrived!", userData})
+
+        } catch (err) {
+            res.status(500).json({message: 'Error!', err})
+        }
+    }
+
+    static editProfile = async (req, res) => {
         
     }
 

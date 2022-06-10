@@ -5,7 +5,8 @@ const auth = require('../../middleware/index')
 
 app.post('/new-user', userController.newUser)
 app.post('/login', userController.login)
-app.get('/user-profile', auth, userController.userProfile)
+app.get('/user-profile/:userId', auth, userController.userProfile)
+app.patch('/edit-profile/:userId', auth, userController.editProfile)
 app.delete('/logout/:userId', userController.logout)
 
 
