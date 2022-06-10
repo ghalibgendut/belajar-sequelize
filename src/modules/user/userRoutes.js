@@ -6,6 +6,7 @@ const auth = require('../../middleware/index')
 app.post('/new-user', userController.newUser)
 app.post('/login', userController.login)
 app.get('/user-profile', auth, userController.userProfile)
+app.delete('/logout/:userId', userController.logout)
 
 
 module.exports = app

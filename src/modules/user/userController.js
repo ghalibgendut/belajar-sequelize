@@ -50,7 +50,7 @@ class UserController{
                 }
 
                 // sign jwt
-                let token = jwt.sign({id: result.dataValues.id}, 'secret_key')
+                let token = jwt.sign({id: result.dataValues.id}, 'secret_key', {expiresIn: '5h'})
                 
                 const tokenData = {
                     userId: result.dataValues.id, 
@@ -74,7 +74,17 @@ class UserController{
         }
     }
 
+    static logout = async (req, res) => {
+
+        const userId = req.params.userId
+
+        const authData = await authModel.destroy({where:{userId}})
+        res.status(201).json({message: `User logedout!`, authData})
+
+    }
+
     static userProfile = async (req, res) => {
+        console.log('Jalan');
         
     }
 
