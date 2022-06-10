@@ -58,7 +58,7 @@ class BookController {
                     }
                 })
     
-                if (!bookData) {
+                if (bookData.length == 0) {
                     res.status(404).json({message:`Data not found!`})
                 }
                 else{

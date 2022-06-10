@@ -35,16 +35,18 @@ class UserController{
                 where: {username}
             })
 
-            if (!userData) {
+
+            if (userData.length == 0) {
                 res.status(404).json({message:`Data not found!`})
             }
             else {
+                
                 result = userData[0]
                 
                 // compare password
                 let pass = bcrypt.compareSync(password, result.dataValues.password)
                 if (!pass) {
-                    res.status(400).json({message:`Wrong password!`})
+                    res.status(400).json({message:`Wrong username or password!`})
                 }
 
                 // sign jwt
