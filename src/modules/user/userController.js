@@ -1,7 +1,7 @@
 const user = require('./userModel')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
-const authModel = require('../../middleware/authModel')
+const authModel = require('../../middleware/authModel');
 
 class UserController{
 
@@ -105,7 +105,34 @@ class UserController{
     }
 
     static editProfile = async (req, res) => {
-        
+        try {
+            const userId = req.params.userId
+            let data = {
+                username: req.body.username ? req.body.username : "",
+                FullName: req.body.FullName ? req.body.FullName : "",
+                address: req.body.address ? req.body.address : ""
+            }
+
+            const userData = await user.findAll({where: {id: userId}})
+            if (userData.length == 0) {
+                res.status(404).json({message: `No data found!`})
+            }
+            else{
+                let userObj = userData[0].dataValues
+
+                const updateData = await user.update({
+                    username: data.username ? data.username : userObj.username,
+                    password: userObj.password,
+                    FullName: data.FullName ? data.FullName : userObj.FullName,
+                    address: data.address ? data.address : userObj.address,
+                    updatedAt: new Date(Date.now())
+                },{where: {id: userId}})
+
+                res.status(200).json({message:`Update data success!`, updateData})
+            }
+        } catch (err) {
+            res.status(500).json({message: 'Error!', err})
+        }
     }
 
 }
