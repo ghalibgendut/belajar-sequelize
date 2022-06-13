@@ -11,6 +11,7 @@ class BookController {
                 year: req.body.year,
                 author: req.body.author,
                 description: req.body.description,
+                price: req.body.price,
                 image: req.body.image
             }
 
@@ -79,11 +80,12 @@ class BookController {
                 name: req.body.name ? req.body.name : "",
                 year: req.body.year ? req.body.year : "",
                 author: req.body.author ? req.body.author : "",
-                description: req.body.description ? req.body.description : ""
+                description: req.body.description ? req.body.description : "",
+                price: req.body.price ? req.body.price : ""
             }
 
             // check if data not null
-            if (data.isbn == '' && data.name == '' && data.year == '' && data.author == '' && data.description == '') {
+            if (data.isbn == '' && data.name == '' && data.year == '' && data.author == '' && data.description == '' || data.price == '') {
                 res.status(400).json({message: `Data cannot be null!`})
             }
             else{
@@ -102,6 +104,7 @@ class BookController {
                         year: data.year ? data.year : bookObj.year,
                         author: data.author ? data.author : bookObj.author,
                         description: data.description ? data.description : bookObj.description,
+                        price: data.price ? data.price : bookObj.price,
                         updatedAt: Date.now()
                     },{where: {id}})
                     res.status(200).json({message:`Update data success!`, updateData})

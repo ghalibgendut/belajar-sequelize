@@ -12,6 +12,7 @@ const bookModel = db.define('book', {
     'year': Sequelize.STRING,
     'author': Sequelize.STRING,
     'description': Sequelize.TEXT,
+    'price': Sequelize.INTEGER,
     'image': {
         type: Sequelize.STRING,
         //Set custom getter for book image using URL
