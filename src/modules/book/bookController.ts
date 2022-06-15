@@ -1,9 +1,10 @@
-const { Op } = require("sequelize");
-const book = require('./bookModel')
+import { Op } from "sequelize";
+import { Request, Response} from 'express'
+import book from './bookModel';
 
 class BookController {
 
-    static addBook = async (req, res) => {
+    static addBook = async (req: Request, res: Response) => {
         try {
             const data = {
                 isbn: req.body.isbn,
@@ -16,16 +17,12 @@ class BookController {
             }
 
             // check if isbn book already existed
-            let bookData
-
-            bookData = await book.findOne({
+            let bookData = await book.findOne({
                 attributes: ['isbn'],
                 where: {isbn: data.isbn}
             })
-            
-            let bookIsbn = bookData?.dataValues?.isbn ?? ''
-
-            if (bookIsbn == data.isbn) {
+                
+            if (bookData?.isNewRecord == false) {
                 res.status(400).json({message: 'Error! Book ISBN already existed'})
             }
             
@@ -38,7 +35,7 @@ class BookController {
         }
     } 
 
-    static searchBook = async (req, res) => {
+    static searchBook = async (req: Request, res: Response) => {
         try {
             let keyword = {
                 isbn: req.query.keyword,
@@ -58,6 +55,7 @@ class BookController {
                         [Op.or]: [{isbn: keyword.isbn}, {name: {[Op.like]: `%${keyword.name}%`}}]
                     }
                 })
+                
     
                 if (bookData.length == 0) {
                     res.status(404).json({message:`Data not found!`})
@@ -72,7 +70,7 @@ class BookController {
         }
     }
 
-    static updateBookData = async (req, res) => {
+    static updateBookData = async (req: Request, res: Response) => {
         try {
             const id = req.params.id
             let data = {
@@ -96,7 +94,8 @@ class BookController {
                     res.status(404).json({message: `No data found!`})
                 }
                 else {
-                    let bookObj = bookDb[0].dataValues
+                    
+                    let bookObj = bookDb[0].get()
 
                     const updateData = await book.update({
                         isbn: data.isbn ? data.isbn : bookObj.isbn,
@@ -105,7 +104,7 @@ class BookController {
                         author: data.author ? data.author : bookObj.author,
                         description: data.description ? data.description : bookObj.description,
                         price: data.price ? data.price : bookObj.price,
-                        updatedAt: Date.now()
+                        updatedAt: new Date(Date.now())
                     },{where: {id}})
                     res.status(200).json({message:`Update data success!`, updateData})
                 }
@@ -115,7 +114,7 @@ class BookController {
         }
     }
 
-    static deleteBook = async (req, res) => {
+    static deleteBook = async (req: Request, res: Response) => {
         try {
             const id = req.params.id
             
@@ -134,4 +133,4 @@ class BookController {
     }
 }
 
-module.exports = BookController
+export default BookController

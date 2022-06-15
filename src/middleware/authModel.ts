@@ -1,5 +1,5 @@
-const db = require('../../config/db/index')
-const Sequelize = require('sequelize')
+import db from '../../config/db/index'
+import Sequelize from 'sequelize'
 
 const authModel = db.define('auth', {
     'id':{
@@ -14,4 +14,4 @@ const authModel = db.define('auth', {
     freezeTableName: true,
 })
 
-module.exports = authModel
+export default authModel

@@ -1,7 +1,7 @@
-const express = require('express')
-const app = new express.Router()
-const userController = require('./userController')
-const auth = require('../../middleware/index')
+import express from 'express'
+const app = express.Router()
+import userController from './userController'
+import auth from '../../middleware/index'
 
 app.post('/new-user', userController.newUser)
 app.post('/login', userController.login)

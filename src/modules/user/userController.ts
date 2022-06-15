@@ -1,11 +1,12 @@
-const user = require('./userModel')
-const bcrypt = require('bcrypt');
+import user from './userModel';
+import { Request, Response} from 'express'
+const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const authModel = require('../../middleware/authModel');
+import authModel from '../../middleware/authModel';
 
 class UserController{
 
-    static newUser = async (req, res) => {
+    static newUser = async (req: Request, res: Response) => {
         try {
             const data = {
                 username: req.body.username,
@@ -24,7 +25,7 @@ class UserController{
         }
     }
 
-    static login = async (req, res) => {
+    static login = async (req: Request, res: Response) => {
         try {
 
             const {username, password} = req.body
@@ -44,16 +45,16 @@ class UserController{
                 result = userData[0]
                 
                 // compare password
-                let pass = bcrypt.compareSync(password, result.dataValues.password)
+                let pass = bcrypt.compareSync(password, result.get().password)
                 if (!pass) {
                     res.status(400).json({message:`Wrong username or password!`})
                 }
 
                 // sign jwt
-                let token = jwt.sign({id: result.dataValues.id}, 'secret_key', {expiresIn: '5h'})
+                let token = jwt.sign({id: result.get().id}, 'secret_key', {expiresIn: '5h'})
                 
                 const tokenData = {
-                    userId: result.dataValues.id, 
+                    userId: result.get().id, 
                     jwtToken: token,
                     createdAt: new Date(Date.now())
                 }
@@ -63,9 +64,9 @@ class UserController{
 
                 res.status(200).json({
                     message: 'User Logedin!', 
-                    username: result.username,
-                    fullName: result.FullName,
-                    address: result.address,
+                    username: result.get().username,
+                    fullName: result.get().FullName,
+                    address: result.get().address,
                     jwt: tokenData.jwtToken
                 })
             }
@@ -74,7 +75,7 @@ class UserController{
         }
     }
 
-    static logout = async (req, res) => {
+    static logout = async (req: Request, res: Response) => {
 
         try {
 
@@ -88,7 +89,7 @@ class UserController{
         }
     }
 
-    static userProfile = async (req, res) => {
+    static userProfile = async (req: Request, res: Response) => {
         try {
             const userId = req.params.userId
         
@@ -104,7 +105,7 @@ class UserController{
         }
     }
 
-    static editProfile = async (req, res) => {
+    static editProfile = async (req: Request, res: Response) => {
         try {
             const userId = req.params.userId
             let data = {
@@ -118,7 +119,7 @@ class UserController{
                 res.status(404).json({message: `No data found!`})
             }
             else{
-                let userObj = userData[0].dataValues
+                let userObj = userData[0].get()
 
                 const updateData = await user.update({
                     username: data.username ? data.username : userObj.username,
@@ -137,4 +138,4 @@ class UserController{
 
 }
 
-module.exports = UserController
+export default UserController

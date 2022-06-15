@@ -1,6 +1,6 @@
-const express = require('express')
-const app = new express.Router()
-const bookController = require('./bookController')
+import express from 'express'
+const app = express.Router()
+import bookController from './bookController'
 
 app.get('/search-book',bookController.searchBook)
 app.post('/add-book', bookController.addBook)
@@ -9,4 +9,4 @@ app.delete('/delete-book/:id',bookController.deleteBook)
 
 
 
-module.exports = app
+export default app
