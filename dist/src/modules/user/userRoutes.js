@@ -12,4 +12,4 @@ app.post('/login', userController_1.default.login);
 app.get('/user-profile/:userId', index_1.default, userController_1.default.userProfile);
 app.patch('/edit-profile/:userId', index_1.default, userController_1.default.editProfile);
 app.delete('/logout/:userId', userController_1.default.logout);
-module.exports = app;
+exports.default = app;

@@ -5,11 +5,14 @@ const app: Express = express();
 const port = process.env.PORT
 
 import bookRoutes from './src/modules/book/bookRoutes'
-// import userRoutes from './src/modules/user/userRoutes'
+import userRoutes from './src/modules/user/userRoutes'
+import cartRoutes from './src/modules/cart/cartRoutes'
 
 app.use(express.json())
 app.use(bookRoutes)
-// app.use(userRoutes)
+app.use(userRoutes)
+app.use(cartRoutes)
+
 
 
 app.get('/', (req: Request, res: Response) => {

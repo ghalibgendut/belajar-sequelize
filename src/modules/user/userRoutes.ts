@@ -10,4 +10,4 @@ app.patch('/edit-profile/:userId', auth, userController.editProfile)
 app.delete('/logout/:userId', userController.logout)
 
 
-module.exports = app
+export default app
